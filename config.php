@@ -5,9 +5,9 @@
 	define('CONSUMER_KEY', '');
 	define('CONSUMER_SECRET', '');
 
-	// Here you specify the hashtags to search for
-	$HASH_TAGS = [
-		'doge',
+	// Here you specify the hashtags to search for. Posts that contain at least one of these tags will be included.
+	$HASHTAGS = [
+		//'doge',
 		'shibainu'
 	];
 

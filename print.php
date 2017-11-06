@@ -3,18 +3,13 @@
 	require __DIR__.'/config.php';
 	use Abraham\TwitterOAuth\TwitterOAuth;
 
-	if (!is_dir(__DIR__.'/temp')) {
-		mkdir(__DIR__.'/temp');
-	}
-
 	//, $access_token, $access_token_secret
 	$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
 	$content = $connection->get(
-		"statuses/user_timeline", 
+		"search/tweets", 
 		[
-			'screen_name' => 'kabosumama', 
-			'count' => 10, 
-			'include_rts' => false
+			'q' => '#'.join(' OR #', $HASHTAGS).' filter:images',
+			'count' => 5,
 		]
 	);
 
@@ -24,7 +19,12 @@
 		exit;
 	}
 
-	foreach($content as $post){
+	if(!isset($content->statuses))
+		die('No results found');
+
+	shuffle($content->statuses);
+
+	foreach($content->statuses as $post){
 
 		if(isset($post->entities->media)){
 
@@ -34,8 +34,10 @@
 
 					$image = $item->media_url;
 
-					$image = imagepng(imagecreatefromstring(file_get_contents($image)), __DIR__."/temp/printme.png");
-					exec('lp '.__dir__.'/temp/printme.png');
+					$image = imagepng(imagecreatefromstring(file_get_contents($image)), __DIR__."/printme.png");
+					
+					// Uncomment to print live
+					exec('lp '.__dir__.'/printme.png');
 					echo 'Printed successfully!';
 
 					return;
