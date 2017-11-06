@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://i.imgur.com/8q01aYF.jpg">
+</p>
+
 # TwitPrint
 Simple PHP script which prints a recent picture from twitter based on hashtags.
 
